@@ -34,7 +34,7 @@ variable "customer_alarms_enabled" {
 
 variable "dimensions" {
   description = "The list of dimensions for the alarm's associated metric. For the list of available dimensions see the AWS documentation here."
-  type        = list(string)
+  type        = list(map(string))
 }
 
 variable "evaluation_periods" {
