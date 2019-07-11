@@ -5,7 +5,7 @@ This module deploys a customized CloudWatch Alarm, for use in generating custome
 
 ```
 module "alarm" {
- source = "git@github.com:rackspace-infrastructure-automation/aws-terraform-cloudwatch_alarm//?ref=v0.0.1"
+ source = "git@github.com:rackspace-infrastructure-automation/aws-terraform-cloudwatch_alarm//?ref=tf_0.12-upgrade"
 
  alarm_description        = "High CPU usage."
  alarm_name               = "MyCloudWatchAlarm"
@@ -13,7 +13,7 @@ module "alarm" {
  customer_alarms_enabled  = true
  evaluation_periods       = 5
  metric_name              = "CPUUtilization"
- notification_topic       = ["${var.notification_topic}"]
+ notification_topic       = [var.notification_topic]
  namespace                = "AWS/EC2"
  period                   = 60
  rackspace_alarms_enabled = true
