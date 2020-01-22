@@ -34,6 +34,7 @@
  */
 
 locals {
+/*
   rackspace_alarm_config = "${var.rackspace_alarms_enabled && var.rackspace_managed ? "enabled":"disabled"}"
   customer_alarm_config  = "${var.customer_alarms_enabled || ! var.rackspace_managed ? "enabled":"disabled"}"
   customer_ok_config     = "${var.customer_alarms_cleared && (var.customer_alarms_enabled || ! var.rackspace_managed) ? "enabled":"disabled"}"
@@ -50,7 +51,7 @@ locals {
 
     disabled = []
   }
-/*
+
   rackspace_sns_topic = {
     standard  = "arn:aws:sns:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:rackspace-support-standard"
     urgent    = "arn:aws:sns:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:rackspace-support-urgent"
@@ -78,14 +79,12 @@ resource "aws_cloudwatch_metric_alarm" "alarm" {
   threshold           = "${var.threshold}"
   unit                = "${var.unit}"
 /*
-  alarm_actions = ["${concat(local.customer_alarm_actions[local.customer_alarm_config])}"]
-*/
+
   alarm_actions = ["${concat(local.rackspace_alarm_actions[local.rackspace_alarm_config],
                              local.customer_alarm_actions[local.customer_alarm_config])}"]
-/*
-  ok_actions = ["${concat(local.customer_alarm_actions[local.customer_ok_config])}"]
-*/
+
+
   ok_actions = ["${concat(local.rackspace_alarm_actions[local.rackspace_alarm_config],
                             local.customer_alarm_actions[local.customer_ok_config])}"]
-
+*/
 }
