@@ -27,7 +27,7 @@ variable "customer_alarms_cleared" {
 }
 
 variable "customer_alarms_enabled" {
-  description = "Specifies whether alarms will notify customers.  Automatically enabled if lsm_managed is set to false"
+  description = "Specifies whether alarms will notify customers.  Automatically enabled if rackspace_managed is set to false"
   type        = "string"
   default     = false
 }
@@ -64,20 +64,20 @@ variable "period" {
   default     = 60
 }
 
-variable "lsm_alarms_enabled" {
-  description = "Specifies whether alarms will create a lsm ticket.  Ignored if lsm_managed is set to false"
+variable "rackspace_alarms_enabled" {
+  description = "Specifies whether alarms will create a Rackspace ticket.  Ignored if rackspace_managed is set to false"
   type        = "string"
-  default     = true
+  default     = false
 }
 
-variable "lsm_managed" {
-  description = "Boolean parameter controlling if instance will be fully managed by lsm support teams, created CloudWatch alarms that generate tickets, and utilize lsm managed SSM documents."
+variable "rackspace_managed" {
+  description = "Boolean parameter controlling if instance will be fully managed by Rackspace support teams, created CloudWatch alarms that generate tickets, and utilize Rackspace managed SSM documents."
   type        = "string"
   default     = true
 }
 
 variable "severity" {
-  description = "The desired severity of the created lsm ticket.  Supported values include: standard, urgent, emergency "
+  description = "The desired severity of the created Rackspace ticket.  Supported values include: standard, urgent, emergency "
   type        = "string"
   default     = "standard"
 }
