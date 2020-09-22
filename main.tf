@@ -1,10 +1,10 @@
 locals {
-  rackspace_alarm_config = "${var.rackspace_alarms_enabled && var.rackspace_managed ? "enabled":"disabled"}"
-  customer_alarm_config  = "${var.customer_alarms_enabled || ! var.rackspace_managed ? "enabled":"disabled"}"
-  customer_ok_config     = "${var.customer_alarms_cleared && (var.customer_alarms_enabled || ! var.rackspace_managed) ? "enabled":"disabled"}"
+  lsm_alarm_config = "${var.lsm_alarms_enabled && var.lsm_managed ? "enabled":"disabled"}"
+  customer_alarm_config  = "${var.customer_alarms_enabled || ! var.lsm_managed ? "enabled":"disabled"}"
+  customer_ok_config     = "${var.customer_alarms_cleared && (var.customer_alarms_enabled || ! var.lsm_managed) ? "enabled":"disabled"}"
 
-  rackspace_alarm_actions = {
-    enabled = ["${local.rackspace_sns_topic[var.severity]}"]
+  lsm_alarm_actions = {
+    enabled = ["${local.lsm_sns_topic[var.severity]}"]
 
     disabled = []
   }
@@ -15,10 +15,10 @@ locals {
     disabled = []
   }
 
-  rackspace_sns_topic = {
-    standard  = "arn:aws:sns:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:rackspace-support-standard"
-    urgent    = "arn:aws:sns:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:rackspace-support-urgent"
-    emergency = "arn:aws:sns:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:rackspace-support-emergency"
+  lsm_sns_topic = {
+    standard  = "arn:aws:sns:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:lsm-support-standard"
+    urgent    = "arn:aws:sns:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:lsm-support-urgent"
+    emergency = "arn:aws:sns:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:lsm-support-emergency"
   }
 }
 
@@ -41,9 +41,9 @@ resource "aws_cloudwatch_metric_alarm" "alarm" {
   threshold           = "${var.threshold}"
   unit                = "${var.unit}"
 
-  alarm_actions = ["${concat(local.rackspace_alarm_actions[local.rackspace_alarm_config],
+  alarm_actions = ["${concat(local.lsm_alarm_actions[local.lsm_alarm_config],
                              local.customer_alarm_actions[local.customer_alarm_config])}"]
 
-  ok_actions = ["${concat(local.rackspace_alarm_actions[local.rackspace_alarm_config],
+  ok_actions = ["${concat(local.lsm_alarm_actions[local.lsm_alarm_config],
                             local.customer_alarm_actions[local.customer_ok_config])}"]
 }
